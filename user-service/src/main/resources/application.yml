@@ -1,0 +1,26 @@
+server:
+  port: 0
+  # TODO - java -jar -Dserver.port=9003
+  # TODO - 혹은 ./gradlew bootRun -Dserver.port=9003
+  # TODO - 으로 port 변경 후 jar 구동 가능
+
+  # TODO - port를 '0'으로 기재할 경우 random port를 사용한다는 의미
+  # TODO - 매번 실행 시 port가 변경된다.
+
+  # TODO - 그러나 Eureka에서는 server.port를 기준으로 applcation.name을 등록하기 때문에
+  # TODO - spring application이 다중으로 구동되더라도 마지막에 실행한 application server만 등롣될 것이다.
+  # TODO - 해결법으로 eureka.instance.instance-id 사용
+
+spring:
+  application:
+    name: user-service
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    # TODO - Eureka에 현재의 Client Micro Service 정보를 등록함을 설정
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka

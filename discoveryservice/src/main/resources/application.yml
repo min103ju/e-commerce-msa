@@ -1,0 +1,14 @@
+
+server:
+  port: 8761
+
+spring:
+  application:
+    name: discoveryservice
+
+eureka:
+  client:
+    # TODO - Eureka에 Client로 등록 여부를 설정하는 properties
+    # TODO - Eureka 서버에서 본 서버는 등록할 필요가 없다.
+    register-with-eureka: false
+    fetch-registry: false
