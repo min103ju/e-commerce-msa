@@ -1,0 +1,27 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: apigateway-service
+    # TODO - gateway로써 설정 값
+    # TODO - Spring Cloud Gateway는 비동기 방식으로 지원한다.
+    # TODO - Embeded WAS로 비동기를 지원하는 Netty를 사용
+  cloud:
+    gateway:
+      routes:
+        - id:
+          # TODO - 위치 정보
+          # TODO - predicates에서 설정한 context path 정보가 그대로 붙어서 호출된다.
+          uri:
+          # TODO - 요청에 대한 조건 정보
+          # TODO - Path=/context-path/**
+          predicates:
+            -
