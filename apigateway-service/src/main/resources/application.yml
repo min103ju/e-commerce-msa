@@ -3,8 +3,8 @@ server:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://localhost:8761/eureka
 
@@ -25,13 +25,17 @@ spring:
             baseMessage: Spring Cloud Gateway Global Filter
             preLogger: true
             postLogger: true
+      # TODO - Gateway의 routing은 Round-Robin 방식으로 Load Balance 한다.
       routes:
         - id: first-service
           # TODO - 위치 정보
           # TODO - predicates에서 설정한 context path 정보가 그대로 붙어서 호출된다.
-          uri: http://localhost:8081
+#          uri: http://localhost:8081
           # TODO - 요청에 대한 조건 정보
           # TODO - Path=/context-path/**
+          # TODO - Naming Server(Eureka)에 등록되어 있는 이름으로 작성
+          # TODO - Sacle-out 하기 위해 Server instance를 여러개 띄우는 경우 port가 아닌 Name으로 관리
+          uri: lb://FIRST-SERVICE
           predicates:
             - Path=/first-service/**
           filters:
@@ -40,13 +44,15 @@ spring:
             # TODO - Filter Class 명 기재
             - CustomFilter
         - id: second-service
-          uri: http://localhost:8082
+#          uri: http://localhost:8082
+          uri: lb://SECOND-SERVICE
           predicates:
             - Path=/second-service/**
           filters:
 #            - AddRequestHeader=second-request, second-request-header2
 #            - AddResponseHeader=second-response, second-response-header2
             # TODO - Filter에 추가적으로 properties(args)를 전달하고자 한다면, name이라는 키로 명시해줘야 한다.
+            # TODO - lb는 Load Balancer
             - name: CustomFilter
             - name: LoggingFilter
               args:
