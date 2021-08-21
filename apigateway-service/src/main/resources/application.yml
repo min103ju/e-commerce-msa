@@ -14,14 +14,42 @@ spring:
     # TODO - gateway로써 설정 값
     # TODO - Spring Cloud Gateway는 비동기 방식으로 지원한다.
     # TODO - Embeded WAS로 비동기를 지원하는 Netty를 사용
+
   cloud:
     gateway:
+      default-filters:
+        # TODO - Filter Class 명 기재
+        - name: GlobalFilter
+          # TODO - GlobalFilter 안에 Config 필드로 주입
+          args:
+            baseMessage: Spring Cloud Gateway Global Filter
+            preLogger: true
+            postLogger: true
       routes:
-        - id:
+        - id: first-service
           # TODO - 위치 정보
           # TODO - predicates에서 설정한 context path 정보가 그대로 붙어서 호출된다.
-          uri:
+          uri: http://localhost:8081
           # TODO - 요청에 대한 조건 정보
           # TODO - Path=/context-path/**
           predicates:
-            -
+            - Path=/first-service/**
+          filters:
+#            - AddRequestHeader=first-request, first-request-header2
+#            - AddResponseHeader=first-response, first-response-header2
+            # TODO - Filter Class 명 기재
+            - CustomFilter
+        - id: second-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/second-service/**
+          filters:
+#            - AddRequestHeader=second-request, second-request-header2
+#            - AddResponseHeader=second-response, second-response-header2
+            # TODO - Filter에 추가적으로 properties(args)를 전달하고자 한다면, name이라는 키로 명시해줘야 한다.
+            - name: CustomFilter
+            - name: LoggingFilter
+              args:
+                baseMessage: Hi. there.
+                preLogger: true
+                postLogger: true
