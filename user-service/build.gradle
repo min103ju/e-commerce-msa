@@ -24,11 +24,18 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// TODO - Service의 process에 따라 특정 Model의 형변환을 도와주는 라이브러리
+	// TODO - e.g) Dto -> Entity
+	// TODO - 이번 프로젝트에서는 학습용으로 사용하지만 의존이 걸리기 때문에 굳이 사용할 필요는 없을 듯하다.
+	implementation 'org.modelmapper:modelmapper:2.3.8'
 
 	// TODO - h2 1.4.x의 경우 spring boot application을 구동하면서 Database가 자동으로 만들어지지 않는다.
 	// TODO - 따라서 1.3.x 마지막 버전인 1.3.176으로 다운그레이드하여 프로젝트를 진행한다.
