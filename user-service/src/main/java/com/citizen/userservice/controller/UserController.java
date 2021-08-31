@@ -6,6 +6,7 @@ import com.citizen.userservice.service.UserService;
 import com.citizen.userservice.vo.Greeting;
 import com.citizen.userservice.vo.RequestUser;
 import com.citizen.userservice.vo.ResponseUser;
+import com.google.inject.internal.cglib.core.$Local;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/")
+@RequestMapping("/user-service")
 @RestController
 public class UserController {
 
@@ -30,7 +31,7 @@ public class UserController {
 
     @GetMapping("/health-check")
     public String status() {
-        return "It's Working in User Service";
+        return String.format("It's Working in User Service on Port %s", env.getProperty("local.server.port"));
     }
 
     @GetMapping("/welcome")

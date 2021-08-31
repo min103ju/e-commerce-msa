@@ -27,6 +27,11 @@ spring:
             postLogger: true
       # TODO - Gateway의 routing은 Round-Robin 방식으로 Load Balance 한다.
       routes:
+        - id: user-service
+          # TODO - Eureka에 등록된 이름
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/user-service/**
         - id: first-service
           # TODO - 위치 정보
           # TODO - predicates에서 설정한 context path 정보가 그대로 붙어서 호출된다.
