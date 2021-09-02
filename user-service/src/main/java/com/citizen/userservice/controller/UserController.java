@@ -36,7 +36,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/health-check")
-    public String status(HttpRequest request) {
+    public String status() {
         return String.format("It's Working in User Service on Port %s", env.getProperty("local.server.port"));
     }
 
@@ -44,9 +44,9 @@ public class UserController {
     public String welcome() {
         StringBuilder sb = new StringBuilder();
         sb.append("env : ");
-        sb.append(propertiesConfig.getMessage() + ", ");
-        sb.append("propertiesConfig : ");
         sb.append(env.getProperty("greeting.message") + ", ");
+        sb.append("propertiesConfig : ");
+        sb.append(propertiesConfig.getMessage() + ", ");
         sb.append("greeting component : ");
         sb.append(greeting.getMessage());
         return sb.toString();

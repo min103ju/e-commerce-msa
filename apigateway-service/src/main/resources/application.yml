@@ -32,6 +32,10 @@ spring:
           uri: lb://USER-SERVICE
           predicates:
             - Path=/user-service/**
+        - id: catalog-service
+          uri: lb://CATALOG-SERVICE
+          predicates:
+            - Path=/catalog-service/**
         - id: first-service
           # TODO - 위치 정보
           # TODO - predicates에서 설정한 context path 정보가 그대로 붙어서 호출된다.
