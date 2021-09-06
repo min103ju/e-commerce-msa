@@ -10,6 +10,8 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,6 +26,25 @@ public class UserServiceImpl implements UserService {
     // TODO: 2021-08-29 BCryptPasswordEncoder는 Bean으로 등록되어 있지 않다.
     // TODO: 2021-08-29 따라서, 가장 먼저 Bean으로 등록되는 Class에서 관리하여 Bean으로 등록될 수 있도록 한다.
     private final BCryptPasswordEncoder passwordEncoder;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        UserEntity userEntity = userRepository.findByEmail(email);
+
+        if (userEntity == null) {
+            throw new UsernameNotFoundException(email);
+        }
+
+        return new User(
+            userEntity.getEmail(),
+            userEntity.getEncryptedPwd(),
+            true,
+            true,
+            true,
+            true,
+            new ArrayList<>()
+        );
+    }
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -63,5 +84,4 @@ public class UserServiceImpl implements UserService {
     public Iterable<UserEntity> getUserByAll() {
         return userRepository.findAll();
     }
-
 }
