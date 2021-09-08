@@ -39,10 +39,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
     // TODO: 2021-09-07 authenticationManager를 설정한 AuthenticationFilter를 반환
     private AuthenticationFilter getAuthenticationFilter() throws Exception {
-        AuthenticationFilter authenticationFilter = new AuthenticationFilter();
-
         // TODO: 2021-09-07 WebSecurityConfigurerAdapter의 authenticationManager() 메소드를 호출
-        authenticationFilter.setAuthenticationManager(authenticationManager());
+        AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager(), userService, env);
 
         return authenticationFilter;
     }
@@ -51,6 +49,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // TODO: 2021-09-07 사용자 데이터를 조회하여 설정
+        // TODO: 2021-09-09 조회한 User의 password를 encoder하는 메소드
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
 }

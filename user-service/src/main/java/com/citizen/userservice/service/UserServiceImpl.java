@@ -27,6 +27,7 @@ public class UserServiceImpl implements UserService {
     // TODO: 2021-08-29 따라서, 가장 먼저 Bean으로 등록되는 Class에서 관리하여 Bean으로 등록될 수 있도록 한다.
     private final BCryptPasswordEncoder passwordEncoder;
 
+    // TODO: 2021-09-09 2. AuthenticationFilter에서 attemptAuthentication 메소드 실행 후 두번째로 실행되는 메소드
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = userRepository.findByEmail(email);
@@ -83,5 +84,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public Iterable<UserEntity> getUserByAll() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public UserDto getUserDetailsByEmail(String email) {
+        UserEntity findUserEntity = userRepository.findByEmail(email);
+
+        UserDto userDto = new ModelMapper().map(findUserEntity, UserDto.class);
+
+        if (userDto == null) {
+            throw new UsernameNotFoundException("User not Found");
+        }
+
+        return userDto;
     }
 }
