@@ -31,7 +31,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers("/**")
             // TODO: 2021-09-07 IP에 대한 제한
-            .hasIpAddress("121.171.104.33")
+            .hasIpAddress("192.168.0.8")
             .and()
             // TODO: 2021-09-07 Request 요청에 대한 filter 처리를 위한 Filter 추가
             .addFilter(getAuthenticationFilter());
